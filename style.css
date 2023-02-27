@@ -27,7 +27,7 @@ main {
 
 .newspaper {
   background-color: antiquewhite;
-  font-family: 'Times New Roman', Times, serif;
+  font-family: Times New Roman, Times, serif;
   font-weight: 700;
 }
 
@@ -62,17 +62,17 @@ main {
 }
 
 .rotateleft {
-  transform: matrix(0.996195, -0.0871557, 0.0871557, 0.996195, 0, 0);
+  transform: var(--rotateleft);
 }
 
 .rotateright {
-  transform: matrix(0.996195, 0.0871557, -0.0871557, 0.996195, 0, 0);
+  transform: var(--rotateright);
 }
 
 .skewleft {
-  transform: matrix(1, 0, 0.176327, 1, 0, 0);
+  transform: var(--skewleft);
 }
 
 .skewright {
-  transform: matrix(1, 0, -0.176327, 1, 0, 0);
+  transform: var(--skewright);
 }
