@@ -6,7 +6,7 @@ const btnGenLetter = document.querySelector('#criar-carta');
 function validateInput() {
   const inputText = letterInput.value.trim();
   if (!inputText) {
-    console.log('Por favor, insira algum texto.');
+    letterElement.textContent = 'Por favor, digite o conteúdo da carta.';
     return false;
   }
   return true;
