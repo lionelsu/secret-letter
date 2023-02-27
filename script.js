@@ -9,6 +9,7 @@ function validateInput() {
     letterElement.textContent = 'Por favor, digite o conteúdo da carta.';
     return false;
   }
+  letterElement.textContent = '';
   return true;
 }
 
