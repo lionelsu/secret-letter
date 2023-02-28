@@ -1,6 +1,7 @@
 const letterInput = document.querySelector('#carta-texto');
 const letterElement = document.querySelector('#carta-gerada');
 const btnGenLetter = document.querySelector('#criar-carta');
+const wordCount = document.querySelector('#carta-contador');
 function selectorFactory() {
   const spans = letterElement.querySelectorAll('span');
   return {
@@ -43,9 +44,12 @@ function validateInput() {
   return true;
 }
 
+// Função auxiliar para dividir as palavras em um array
+const splitWords = () => letterInput.value.split(' ');
+
 // Função para formatação da carta, adiciona as palavras do input em um array de spans
 function formatLetter() {
-  const words = letterInput.value.split(' ');
+  const words = splitWords();
   const formattedWords = [];
   for (let index = 0; index < words.length; index += 1) {
     const word = words[index].trim();
@@ -93,14 +97,21 @@ function addClickToSpan() {
   });
 }
 
-// Função com o único papel de injetar o texto formatado no paragrafo da carta misteriosa, caso o input esteja com algum valor
+// Função para contar palavras e exibir na tela
+function wordCounter() {
+  const words = splitWords();
+  wordCount.textContent = words.length;
+}
+
+// Função principal do modulo, sua função além de gerar a carta é validar o input e chamar as principais funções de renderização. O nome desta função seria init, mas como ela tem uma responsabilidade em conjunto com outras, seu nome ficou este mesmo.
 function generateLetter() {
+  setStyle();
   if (!validateInput()) {
     return;
   }
   letterElement.innerHTML = formatLetter();
   addRandomClass();
   addClickToSpan();
+  wordCounter();
 }
 btnGenLetter.addEventListener('click', generateLetter);
-setStyle();

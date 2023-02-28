@@ -30,6 +30,11 @@ main {
   gap: 4.2rem;
 }
 
+span {
+  user-select: none;
+  cursor: pointer;
+}
+
 .newspaper {
   background-color: antiquewhite;
   font-family: Times New Roman, Times, serif;
