@@ -1,20 +1,19 @@
 const letterInput = document.querySelector('#carta-texto');
 const letterElement = document.querySelector('#carta-gerada');
 const btnGenLetter = document.querySelector('#criar-carta');
-
+function selectorFactory() {
+  const spans = letterElement.querySelectorAll('span');
+  return {
+    spans,
+  };
+}
 // Grupos de classes para serem usados nos SPAN
-const classes = [
-  'newspaper',
-  'magazine1',
-  'magazine2',
-  'medium',
-  'big',
-  'reallybig',
-  'rotateleft',
-  'rotateright',
-  'skewleft',
-  'skewright',
-];
+const classes = {
+  style: ['newspaper', 'magazine1', 'magazine2'],
+  size: ['medium', 'big', 'reallybig'],
+  rotation: ['rotateleft', 'rotateright'],
+  skew: ['skewleft', 'skewright'],
+};
 
 // Const para definir propriedades para serem passadas ao style.
 const transforms = {
@@ -32,7 +31,6 @@ function setStyle() {
     style.setProperty(`--${prop}`, value);
   });
 }
-setStyle();
 
 // Função de validação, retorna uma mensagem e não faz nada caso o campo de texto esteja vazio.
 function validateInput() {
@@ -60,11 +58,39 @@ function formatLetter() {
   return formattedText;
 }
 
-// Função para distribuir as classes dentro dos SPANS
-function addRandomClasses(element, classList) {
-  const randomIndexClass = Math.floor(Math.random() * classList.length);
-  const randomClass = classList[randomIndexClass];
-  element.classList.add(randomClass);
+// Função para gerar as classes aleatórias para usar nos spans
+function generateRandomClasses(classList) {
+  return Object.values(classList).map((group) => {
+    const randomIndex = Math.floor(Math.random() * group.length);
+    const randomClass = group[randomIndex];
+    return randomClass;
+  });
+}
+
+// Função auxiliar que será usada para espalhar as propriedades das classes ao span
+function randomClassesToSpan(span) {
+  const randomClasses = generateRandomClasses(classes);
+  span.classList.add(...randomClasses);
+}
+
+// Função que vai injetar as classes geradas dentro dos SPANS
+function addRandomClass() {
+  const { spans } = selectorFactory();
+  spans.forEach((span) => {
+    randomClassesToSpan(span);
+  });
+}
+
+// Função auxiliar para adicionar um escutador aos cliques realizados diretamente no span da carta gerada
+function addClickToSpan() {
+  const { spans } = selectorFactory();
+  spans.forEach((span) => {
+    span.addEventListener('click', () => {
+      const spanClasses = span;
+      spanClasses.className = '';
+      randomClassesToSpan(span);
+    });
+  });
 }
 
 // Função com o único papel de injetar o texto formatado no paragrafo da carta misteriosa, caso o input esteja com algum valor
@@ -72,10 +98,9 @@ function generateLetter() {
   if (!validateInput()) {
     return;
   }
-  const formattedText = formatLetter();
-  letterElement.innerHTML = formattedText;
-
-  const spans = letterElement.querySelectorAll('span');
-  spans.forEach((span) => addRandomClasses(span, classes));
+  letterElement.innerHTML = formatLetter();
+  addRandomClass();
+  addClickToSpan();
 }
 btnGenLetter.addEventListener('click', generateLetter);
+setStyle();

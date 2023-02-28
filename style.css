@@ -23,6 +23,11 @@ body {
 main {
   max-width: 136.6rem;
   max-height: 76.8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4.2rem;
 }
 
 .newspaper {
